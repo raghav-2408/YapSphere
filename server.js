@@ -2,12 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
-const session = require('express-session'); // Added for session handling
+const session = require('express-session');
+const dotenv = require('dotenv'); // Added for environment variables
 const User = require('./models/User'); // User schema
 const Message = require('./models/Message'); // Message schema
 
 const app = express();
 const port = 3000;
+
+// Load environment variables
+dotenv.config(); // Use .env file
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,18 +20,20 @@ app.use(express.static('public')); // Serve static HTML files
 
 // Session middleware
 app.use(session({
-    secret: '1a2b3c4d5e6f7g8h9i10j11k12l13m14n', // Replace with a secure secret key
+    secret: process.env.SESSION_SECRET, // Secure session secret stored in .env
     resave: false,
     saveUninitialized: false
 }));
 
 app.set('view engine', 'ejs');
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/chatDB', {
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-});
+})
+    .then(() => console.log('Connected to MongoDB Atlas'))
+    .catch((err) => console.error('Error connecting to MongoDB:', err));
 
 // Serve the registration page
 app.get('/register', (req, res) => {
@@ -39,17 +45,13 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-
-// serve the chat page
+// Serve the chat page
 app.get('/chat', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
     res.render('chat', { username: req.session.user }); // Render EJS template with username
 });
-
-
-
 
 // Registration route
 app.post('/register', async (req, res) => {
