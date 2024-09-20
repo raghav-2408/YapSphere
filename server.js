@@ -3,31 +3,29 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const dotenv = require('dotenv'); // Added for environment variables
-const User = require('./models/User'); // User schema
-const Message = require('./models/Message'); // Message schema
+const dotenv = require('dotenv');
+const http = require('http');
+const socketIO = require('socket.io');
+const User = require('./models/User');
+const Message = require('./models/Message');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3001;
 
-// Load environment variables
-dotenv.config(); // Use .env file
+dotenv.config();
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static HTML files
+app.use(express.static('public'));
 
-// Session middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET, // Secure session secret stored in .env
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
 
 app.set('view engine', 'ejs');
 
-// Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -35,25 +33,24 @@ mongoose.connect(process.env.MONGO_URI, {
     .then(() => console.log('Connected to MongoDB Atlas'))
     .catch((err) => console.error('Error connecting to MongoDB:', err));
 
-// Serve the registration page
+const server = http.createServer(app);
+const io = socketIO(server);
+
 app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/register.html');
 });
 
-// Serve the login page
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-// Serve the chat page
 app.get('/chat', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    res.render('chat', { username: req.session.user }); // Render EJS template with username
+    res.render('chat', { username: req.session.user });
 });
 
-// Registration route
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -78,7 +75,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Login route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -87,7 +83,7 @@ app.post('/login', async (req, res) => {
         if (user) {
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {
-                req.session.user = user.name; // Save user's name in session
+                req.session.user = user.name;
                 res.redirect('/chat');
             } else {
                 res.send('Invalid password!');
@@ -101,7 +97,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Route to get messages
 app.get('/messages', async (req, res) => {
     try {
         const messages = await Message.find().sort({ timestamp: 1 });
@@ -112,17 +107,23 @@ app.get('/messages', async (req, res) => {
     }
 });
 
-// Route to post a new message
 app.post('/messages', async (req, res) => {
-    const { content } = req.body;
+    const { content, user, isImage, timestamp } = req.body;
 
     try {
         if (!req.session.user) {
             return res.status(401).send('Unauthorized');
         }
 
-        const newMessage = new Message({ user: req.session.user, content });
+        const newMessage = new Message({
+            user: user || req.session.user,
+            content: content,
+            isImage: isImage || false,
+            timestamp: timestamp || new Date()
+        });
+
         await newMessage.save();
+        io.emit('newMessage', newMessage);
         res.status(201).send('Message saved.');
     } catch (error) {
         console.error(error);
@@ -130,6 +131,20 @@ app.post('/messages', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    socket.on('newMessage', (message) => {
+        // Emit the message to all connected clients
+        io.emit('newMessage', message);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+});
+
+
+server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
