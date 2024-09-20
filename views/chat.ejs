@@ -184,7 +184,7 @@
 
             if (message.user === username) {
                 messageElement.className = 'chatSection user-message';
-                messageElement.innerHTML = `You: ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
+                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i>  You: ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
             } else {
                 messageElement.className = 'chatSection other-message';
                 messageElement.innerHTML = `${message.user}: ${message.content} <small>${formattedTime}</small>`;
