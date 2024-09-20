@@ -36,6 +36,9 @@ mongoose.connect(process.env.MONGO_URI, {
 const server = http.createServer(app);
 const io = socketIO(server);
 
+
+
+
 app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/register.html');
 });
@@ -50,6 +53,21 @@ app.get('/chat', (req, res) => {
     }
     res.render('chat', { username: req.session.user });
 });
+
+
+
+
+// log out
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send('Error logging out.');
+        }
+        res.redirect('/login');
+    });
+});
+
 
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
