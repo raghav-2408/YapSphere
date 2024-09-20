@@ -11,115 +11,203 @@
     <script src="/socket.io/socket.io.js"></script>
     <style>
         body {
-            background-color: #E5E5E5;
-        }
-        .container {
-            position: relative;
-            top: 20px;
-            margin: auto;
-            background-color: white;
-            width: 1300px;
-            height: 680px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .mainChat {
-            background-color: aliceblue;
-            width: 100%;
-            height: 550px;
-            border: 1px solid grey;
-            overflow-y: auto;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        .inputSec {
-            display: flex;
-            align-items: center;
-        }
-        .inputSec input {
-            flex: 1;
-        }
-        .inputSec button {
-            margin-left: 10px;
-        }
-        .chatSection {
-            background: white;
-            width: auto;
-            border-radius: 6px;
-            font-size: larger;
-            margin-top: 8px;
-            padding: 8px;
-            display: inline-block;
-        }
-        .chatSection.user-message {
-            background-color: #8df54c; 
-            align-self: flex-end;
-        }
-        .chatSection.other-message {
-            background-color: #060694;
-            color: white;
-            align-self: flex-start;
-        }
-        #welcomeMessage {
-            text-align: center;
-            font-size: 18px;
-            letter-spacing: 1px;
-        }
-        .title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: -25px;
-        }
-        img {
-            width: 50px;
-            height: 50px;
-        }
-        .btn {
-            background-color: #060694;
-            color: white;
-        }
-        .btn:hover {
-            background-color: #050572;
-            color: white;
-        }
+    background-color: #E5E5E5;
+}
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 3px;
-            height: 1px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: #bcbaba;
-            border-radius: 65px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
-        }
+.container {
+    position: relative;
+    top: 20px;
+    margin: auto;
+    background-color: white;
+    width: 90%;
+    max-width: 1300px;
+    height: 680px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
 
-        /* Timestamp styling */
-        small{
-            position: relative;
-            padding: 10px;
-            font-size: 11px;
-            top: 2px;
-        }
+.mainChat {
+    background-color: aliceblue;
+    width: 100%;
+    height: 550px;
+    border: 1px solid grey;
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    word-wrap: break-word;
+}
 
-        /* Tick icon styling */
-        #tick{
-            font-size: 13px;
-        }
+.chatSection {
+    background: white;
+    width: auto;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-top: 8px;
+    padding: 7px;
+    display: inline-block;
+    max-width: 60%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.chatSection.user-message {
+    background-color: #037501;
+    align-self: flex-end;
+    border-radius: 20px;
+    color: white;
+}
+
+.chatSection.other-message {
+    background-color: #181863;
+    color: white;
+    align-self: flex-start;
+    border-radius: 20px;
+}
+
+.inputSec {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.inputSec input {
+    flex: 1;
+    border-radius: 20px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    outline: none;
+}
+
+.inputSec button {
+    margin-left: 10px;
+    border-radius: 50%;
+    padding: 10px 15px;
+    background-color: #060694;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.inputSec button:hover {
+    background-color: #050572;
+}
+
+#welcomeMessage {
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+}
+
+.btn:hover {
+    background-color: #050572;
+    color: white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 3px;
+    height: 1px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #bcbaba;
+    border-radius: 65px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+small {
+    position: relative;
+    padding: 10px;
+    font-size: 11px;
+    top: 2px;
+}
+
+#tick {
+    font-size: 12px;
+}
+
+.username{
+    color: #f57b66;
+    font-weight: bold;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        height: auto;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .mainChat {
+        height: 400px;
+    }
+
+    .inputSec button {
+        padding: 8px 12px;
+    }
+
+    .chatSection {
+        max-width: 80%;
+    }
+}
+
+/* Media query for very small devices (like mobile phones) */
+@media (max-width: 480px) {
+    .container {
+        height: auto;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .mainChat {
+        height: 300px;
+    }
+
+    .inputSec input {
+        font-size: 14px;
+    }
+
+    .inputSec button {
+        padding: 6px 10px;
+    }
+
+    #welcomeMessage {
+        font-size: 16px;
+    }
+
+    .chatSection {
+        font-size: 14px;
+        max-width: 90%;
+    }
+}
+
+    
     </style>
 </head>
 <body>
@@ -147,7 +235,7 @@
             const messageElement = document.createElement('div');
             const formattedTime = formatTimestamp(message.timestamp);
 
-            messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.user}: ${message.content} <small>${formattedTime}</small>`;
+            messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.user} : <br> ${message.content} <small>${formattedTime}</small>`;
             messageElement.className = message.user === username ? 'chatSection user-message' : 'chatSection other-message';
 
             document.getElementById('mainChat').appendChild(messageElement);
@@ -184,10 +272,10 @@
 
             if (message.user === username) {
                 messageElement.className = 'chatSection user-message';
-                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i>  You: ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
+                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
             } else {
                 messageElement.className = 'chatSection other-message';
-                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.user}: ${message.content} <small>${formattedTime}</small>`;
+                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.user} : <br> &nbsp; ${message.content} <small>${formattedTime}</small>`;
             }
 
             document.getElementById('mainChat').appendChild(messageElement);
@@ -238,10 +326,10 @@
                     const formattedTime = formatTimestamp(message.timestamp);
 
                     if (message.user === username) {
-                        messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> You: ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
+                        messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
                         messageElement.className = 'chatSection user-message';
                     } else {
-                        messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.user}: ${message.content} <small>${formattedTime}</small>`;
+                        messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i>  <span class = "username">${message.user}</span> <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${message.content} <small>${formattedTime}</small>`;
                         messageElement.className = 'chatSection other-message';
                     }
 
