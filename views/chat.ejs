@@ -187,7 +187,7 @@
                 messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i>  You: ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
             } else {
                 messageElement.className = 'chatSection other-message';
-                messageElement.innerHTML = `${message.user}: ${message.content} <small>${formattedTime}</small>`;
+                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.user}: ${message.content} <small>${formattedTime}</small>`;
             }
 
             document.getElementById('mainChat').appendChild(messageElement);
