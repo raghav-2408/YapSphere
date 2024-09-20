@@ -135,7 +135,6 @@ io.on('connection', (socket) => {
     console.log('A user connected');
 
     socket.on('newMessage', (message) => {
-        // Emit the message to all connected clients
         io.emit('newMessage', message);
     });
 

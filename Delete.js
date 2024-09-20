@@ -11,7 +11,9 @@ async function deleteAllDocuments() {
         // database ka name
         const database = client.db('test'); 
         // inside database collection name
+
         const collection = database.collection('messages'); 
+        // const collection = database.collection('users'); 
 
         // query to delete all the collections from ATLAS
         const result = await collection.deleteMany({});
