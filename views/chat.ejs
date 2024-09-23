@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/66fed9d98a.js" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -21,7 +22,7 @@
             font-family: "Poppins", sans-serif;
             font-weight: 400;
             font-style: normal;
-            }
+        }
 
         .container {
             position: relative;
@@ -40,7 +41,7 @@
         }
 
         .mainChat {
-            background-color: rgb(246, 246, 247);
+            background-color: rgb(236, 236, 237);
             width: 100%;
             height: 550px;
             border: 1px solid grey;
@@ -69,18 +70,18 @@
 
         .chatSection.user-message {
             background-color: #037501;
-            /* background-color: #D7FFD7; */
             align-self: flex-end;
-            border-radius: 20px;
+            border-radius: 10px;
             color: white;
+            padding: 10px;
         }
 
         .chatSection.other-message {
             background-color: #181863;
-            /* background-color: #E3F2FD; */
             color: white;
             align-self: flex-start;
-            border-radius: 20px;
+            border-radius: 10px;
+            padding: 10px;
         }
 
         .inputSec {
@@ -103,6 +104,7 @@
             padding: 10px 15px;
             background-color: #060694;
             color: white;
+            /* width: 47px; */
             transition: background-color 0.2s ease;
         }
 
@@ -124,8 +126,8 @@
         }
 
         img {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
         }
 
         .btn:hover {
@@ -163,26 +165,32 @@
             font-size: 12px;
         }
 
-        .username{
+        .username {
             color: #f57b66;
             font-weight: bold;
         }
 
-        #logout{
+        #logout {
             font-size: 12px;
             letter-spacing: 1px;
         }
-        #logout:hover{
+        
+        #logout:hover {
             border: none;
             font-size: 11px;
             letter-spacing: 1px;
+        }
+
+        .date-separator {
+            font-weight: 600;
+            font-size: 13px;
         }
 
         /* Media query for smaller screens */
         @media (max-width: 768px) {
             .container {
                 height: auto;
-                width: 100%;
+                width: 88%;
                 padding: 15px;
             }
 
@@ -199,11 +207,13 @@
             }
         }
 
+        
+
         /* Media query for very small devices (like mobile phones) */
         @media (max-width: 480px) {
             .container {
                 height: auto;
-                width: 100%;
+                width: 88%;
                 padding: 10px;
             }
 
@@ -229,57 +239,340 @@
             }
         }
 
-    
     </style>
 </head>
 <body>
     <div class="container">
         <div class="title">
             <img src="/logo1.png" alt="" class="my-3"/>
-            <h4 id="welcomeMessage">Yo <%= username %>! 👋 </h4>
-            <a href="/logout" class="btn btn-danger" id = "logout">Logout <i class="fa-solid fa-right-from-bracket mx-1"></i></a>
+            <h4 id="welcomeMessage">Yo, <%= username %>! 👋 </h4>
+            <a href="/logout" class="btn btn-danger" id="logout">Logout <i class="fa-solid fa-right-from-bracket mx-1"></i></a>
         </div>
 
         <div class="mainChat" id="mainChat"></div>
 
         <div class="inputSec">
             <input class="form-control" id="userInput" type="text" placeholder="Type something here...">
+
+            <button class="emoji-btn btn" id="emojiButton" style="margin-right: 10px;">
+                <i class="fa-solid fa-face-laugh"></i>
+            </button>
+
             <button class="btn" id="sendButton">
                 <i class="fa-solid fa-arrow-up"></i>
             </button>
+        </div>
+
+        <!-- Emoji Container -->
+        <div id="emojiContainer" style="display: none; position: absolute; bottom : 65px; left:0px; background: white; border: 1px solid #ddd; border-radius: 10px; padding: 10px; z-index: 1000; max-height: 158px; overflow-y: auto;">
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😀</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😁</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😂</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🤣</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😃</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😄</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😅</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😆</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😉</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😊</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😇</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥰</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😍</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🤩</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😘</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😗</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😙</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😚</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😋</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😜</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🤪</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😝</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🤑</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😳</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🤗</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😬</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😕</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😟</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😮</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😯</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😲</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥺</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😧</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😨</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😩</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😡</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😠</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😈</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">👿</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💀</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">☠️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💩</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😺</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😸</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😻</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😼</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😽</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🙀</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😿</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">😾</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🙈</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🙉</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🙊</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐵</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐒</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦁</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐶</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐺</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐕</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐩</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐾</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐈</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐈‍⬛</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐅</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐆</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦓</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐘</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦏</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦒</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐫</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐘</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦙</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐐</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐏</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐑</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐎</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦄</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐉</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦖</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦕</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐲</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐍</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦜</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐦</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐧</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦚</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦢</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦩</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐋</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐬</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐟</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐠</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐡</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦈</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦭</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐙</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦐</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦞</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐚</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐌</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐛</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐜</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐝</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦋</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐞</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦗</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦟</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🕷️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🕸️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐢</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐍</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦎</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐸</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐲</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐊</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐳</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐋</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦈</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🦭</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🐙</span>
+
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">❤️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧡</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💛</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💚</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💙</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💜</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🤍</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🤎</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💔</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💕</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💞</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💓</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💗</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💖</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💘</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💝</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧡</span>
+
+
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌍</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌎</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌏</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌕</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌖</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌗</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌘</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌑</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌒</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌓</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌔</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌚</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌝</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌞</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">⭐</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌟</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">✨</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌈</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">☁️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌧️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌦️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌩️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌨️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">❄️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">☃️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌪️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌫️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌬️</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌀</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌊</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">💧</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍀</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌱</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌿</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌳</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌲</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌴</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌵</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌾</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌸</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌼</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌻</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌺</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍄</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌰</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🌽</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍇</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍉</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍊</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍋</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍌</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍍</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥭</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍎</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍏</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍐</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍑</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍒</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍓</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥝</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍅</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥕</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥒</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥬</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍆</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥔</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍠</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥜</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍯</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥛</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧈</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧀</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥩</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍗</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍖</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍤</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍣</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍱</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍜</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍝</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍨</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍧</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍰</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍪</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍫</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍬</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍭</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍮</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍯</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🎂</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍹</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍸</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍷</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥂</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍺</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍻</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥃</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧃</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧉</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧊</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🧋</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🥤</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">☕</span>
+            <span class="emoji" style="cursor: pointer; font-size: 24px; margin: 5px;">🍼</span>
+            
+
+
+
+            <!-- Add more emojis as needed -->
         </div>
     </div>
 
     <script>
         const username = '<%= username %>';
         const socket = io();
+        let lastMessageDate = null; 
 
         function appendMessageToChat(message) {
-            const messageElement = document.createElement('div');
+            const messageDate = new Date(message.timestamp);
+            const formattedDate = formatMessageDate(messageDate); 
             const formattedTime = formatTimestamp(message.timestamp);
-
-            messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.user} : <br> ${message.content} <small>${formattedTime}</small>`;
-            messageElement.className = message.user === username ? 'chatSection user-message' : 'chatSection other-message';
-
-            document.getElementById('mainChat').appendChild(messageElement);
             const mainChat = document.getElementById('mainChat');
+
+            if (!lastMessageDate || !isSameDay(lastMessageDate, messageDate)) {
+                const dateElement = document.createElement('div');
+                dateElement.className = 'date-separator';
+                dateElement.innerHTML = `${formattedDate}`;
+                dateElement.style.textAlign = 'center';  
+                dateElement.style.margin = '10px 0';  
+                mainChat.appendChild(dateElement);
+    
+                lastMessageDate = messageDate;
+            }
+
+            const messageElement = document.createElement('div');
+            messageElement.className = message.user === username ? 'chatSection user-message' : 'chatSection other-message';
+    
+            if (message.user === username) {
+                messageElement.innerHTML = `${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
+            } else {
+                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> <span class="username" style="color: #f57b66;">${message.user}</span> <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${message.content} <small>${formattedTime}</small>`;
+            }
+    
+            mainChat.appendChild(messageElement);
             mainChat.scrollTop = mainChat.scrollHeight;
         }
-
-        async function sendMessageToServer(message) {
-            try {
-                await fetch('/messages', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(message)
-                });
-            } catch (error) {
-                console.error('Error sending message:', error);
+    
+        function formatMessageDate(date) {
+            const today = new Date();
+            if (isSameDay(today, date)) {
+                return 'Today';
             }
-        }
 
+            return date.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+    
+        function isSameDay(date1, date2) {
+            return (
+                date1.getFullYear() === date2.getFullYear() &&
+                date1.getMonth() === date2.getMonth() &&
+                date1.getDate() === date2.getDate()
+            );
+        }
+    
         function formatTimestamp(timestamp) {
             const date = new Date(timestamp);
             return date.toLocaleTimeString('en-US', {
@@ -288,28 +581,15 @@
                 hour12: true
             });
         }
-
+    
         socket.on('newMessage', (message) => {
-            const messageElement = document.createElement('div');
-            const formattedTime = formatTimestamp(message.timestamp);
-
-            if (message.user === username) {
-                messageElement.className = 'chatSection user-message';
-                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
-            } else {
-                messageElement.className = 'chatSection other-message';
-                messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> <span class = "username">${message.user} </span>  <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${message.content} <small>${formattedTime}</small>`;
-            }
-
-            document.getElementById('mainChat').appendChild(messageElement);
-            const mainChat = document.getElementById('mainChat');
-            mainChat.scrollTop = mainChat.scrollHeight;
+            appendMessageToChat(message);
         });
-
+    
         document.getElementById('sendButton').addEventListener('click', async function() {
             const userInput = document.getElementById('userInput');
             const message = userInput.value.trim();
-
+    
             if (message !== '') {
                 try {
                     await fetch('/messages', {
@@ -329,14 +609,14 @@
                 }
             }
         });
-
+    
         document.getElementById('userInput').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 document.getElementById('sendButton').click();
             }
         });
-
+    
         async function fetchMessages() {
             try {
                 const response = await fetch('/messages');
@@ -344,25 +624,41 @@
                 const messages = await response.json();
                 const mainChat = document.getElementById('mainChat');
                 mainChat.innerHTML = '';
+    
+                lastMessageDate = null;
+    
                 messages.forEach(message => {
-                    const messageElement = document.createElement('div');
-                    const formattedTime = formatTimestamp(message.timestamp);
-
-                    if (message.user === username) {
-                        messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i> ${message.content} <small>${formattedTime}</small> <i class="fa-solid fa-check" id="tick"></i>`;
-                        messageElement.className = 'chatSection user-message';
-                    } else {
-                        messageElement.innerHTML = `<i class="fa-solid fa-circle-user mx-2"></i>  <span class = "username">${message.user}</span> <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${message.content} <small>${formattedTime}</small>`;
-                        messageElement.className = 'chatSection other-message';
-                    }
-
-                    mainChat.appendChild(messageElement);
+                    appendMessageToChat(message);
                 });
-                mainChat.scrollTop = mainChat.scrollHeight;
             } catch (error) {
                 console.error('Error fetching messages:', error);
             }
         }
+
+        // Emoji logic
+        const emojiButton = document.getElementById('emojiButton');
+        const emojiContainer = document.getElementById('emojiContainer');
+        const userInput = document.getElementById('userInput');
+
+        emojiButton.addEventListener('click', () => {
+            // Toggle the emoji container visibility
+            emojiContainer.style.display = emojiContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Add event listener for emoji clicks
+        emojiContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('emoji')) {
+                userInput.value += event.target.textContent; // Add the emoji to the input
+                userInput.focus();
+            }
+        });
+
+        // Hide the emoji container when clicking outside of it
+        document.addEventListener('click', (event) => {
+            if (!emojiButton.contains(event.target) && !emojiContainer.contains(event.target)) {
+                emojiContainer.style.display = 'none';
+            }
+        });
 
         fetchMessages();
     </script>

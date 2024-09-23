@@ -45,6 +45,10 @@ app.get('/register', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
+    if (req.session.user) { // Check if user is logged in
+        return res.redirect('/chat'); // Redirect to chat if logged in
+    }
+    res.render('login'); // Render login page if not logged in
 });
 
 app.get('/chat', (req, res) => {
