@@ -45,10 +45,6 @@ app.get('/register', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
-    if (req.session.user) { // Check if user is logged in
-        return res.redirect('/chat'); // Redirect to chat if logged in
-    }
-    res.render('login'); // Render login page if not logged in
 });
 
 app.get('/chat', (req, res) => {
@@ -79,12 +75,12 @@ app.post('/register', async (req, res) => {
     try {
         const existingName = await User.findOne({ name });
         if (existingName) {
-            return res.send('User with this name already exists!');
+            return res.send('Oops! User with this name already exists !');
         }
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.send('User with this email already exists!');
+            return res.send('Oops! User with this email already exists !');
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -108,10 +104,10 @@ app.post('/login', async (req, res) => {
                 req.session.user = user.name;
                 res.redirect('/chat');
             } else {
-                res.send('Invalid password!');
+                res.send('Invalid password !');
             }
         } else {
-            res.send('No user found with this email!');
+            res.send('Oops! No user found with this email !');
         }
     } catch (error) {
         console.error(error);
