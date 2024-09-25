@@ -16,3 +16,6 @@ YapSphere is a real-time global chat application built using HTML, CSS, EJS, Jav
 - **Backend**: Node.js, Express
 - **WebSocket**: Socket.io for real-time communication
 - **Database**: MongoDB Atlas (for user accounts and chat logs)
+
+
+*** As this project is deployed on free instance, it will spin down with inactivity, which can delay requests by 50 seconds or more. ***
